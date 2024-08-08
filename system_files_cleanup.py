@@ -1,6 +1,8 @@
 import os
 import shutil
 import logging
+import yaml
+
 logging.basicConfig(
     filename="cleanup.log",
     level=logging.INFO,
@@ -33,6 +35,16 @@ def deleteFiles(dir):
     else:
         print("File cleanup has been cancelled.")
 
-deleteFiles('C:/Users/Flash/Downloads')
-deleteFiles('C:/$Recycle.Bin')
+
+yaml_file_path = "paths.yml"
+
+with open(yaml_file_path, 'r') as file:
+    data = yaml.safe_load(file)
+
+paths = data['paths']
+
+
+for path in paths:
+    deleteFiles(path)
+
 print("File cleanup finished. \n Files deleted: " + str(delFileCount) + "\n Directories deleted: " + str(delDirCount))
